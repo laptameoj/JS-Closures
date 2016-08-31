@@ -12,9 +12,10 @@ var outer = function(){
 // Invoke outer saving the return value into another variable called 'inner'.
 
 // Code Here
-
+var inner = outer();
 
 //Once you do that, invoke inner.
+inner("sam");
 
   //Code Here
 
@@ -36,7 +37,8 @@ var callFriend = function(){
 // Create a makeCall function that when invoked logs  'Calling Jake at 435-215-9248' in your console.
 
   //Code Here
-
+var makeCall = callFriend();
+makeCall(567-5309);
 
 
 
@@ -52,13 +54,19 @@ var callFriend = function(){
 */
 
 //Code Here
+function makeCounter() {
+  var counter = 0
+  return function() {
+    return ++counter;
+  }
+}
 
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -67,16 +75,24 @@ var callFriend = function(){
 
 // Inside the function called counterFactory
 // return two functions that implement up/down counter.
-// The first function is called inc, this function is responsible for incrementing the value once
-// The second function is called dec, this function is responsible for decrementing the value by one
+// 1. The first function is called inc, this function is responsible for
+// incrementing the value once
+// 2. The second function is called dec, this function is responsible for
+// decrementing the value by one
 // You will need to use the module pattern to achieve this.
 
 function counterFactory(value) {
 
   // Code here.
-
+var setValue = value
 
   return {
+    inc: function() {
+      return ++setValue;
+    }
+    , dec: function() {
+      return --setValue;
+    }
   }
 }
 
@@ -96,7 +112,9 @@ counter = counterFactory(10);
     var welcomeText = 'You\'re doing awesome, keep it up ';
 
     // code message function here.
-
+    return function( ) {
+      return welcomeText + firstname + " " + lastname +'.';
+    }()
 
     //Uncommment this to return the value of your invoked message function
 
@@ -109,7 +127,8 @@ counter = counterFactory(10);
 
 //////////////////PROBLEM 6////////////////////
 
-// Inside the return create a publicMethod property that is a function that invokes privateMethod. After you create the privateMethod
+// Inside the return create a publicMethod property that is a function that
+// invokes privateMethod. After you create the privateMethod
 // Invoke it by calling module.publicMethod(); outside the module scope
 
   var module = (function() {
@@ -127,29 +146,34 @@ counter = counterFactory(10);
 
     return {
       // Code here.
+      publicMethod: function() {
+        return privateMethod();
+      }
     };
 
   })();
 
 //Uncomment this after you create your public method
-//   module.publicMethod();
+   module.publicMethod();
 
 
 
 //////////////////PROBLEM 7////////////////////
-// Here we have a for loop that will iterate as long as i is less than or equal to 5. What we need to do is console.log(i)
-// So that it logs ( 0 then 1 then 2 then 3, etc). Run this code in your console to see what the output is.
+// Here we have a for loop that will iterate as long as i is less than or equal
+// to 5. What we need to do is console.log(i)
+// So that it logs ( 0 then 1 then 2 then 3, etc). Run this code in your console
+// to see what the output is.
 
 
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000)
+    setTimeout(newScope(i), i * 1000);
   }
-
   function newScope(i) {
-    console.log(i)
+    return function() {
+      console.log(i)
+    }
+
   }
 }
 timeOutCounter();
@@ -163,15 +187,29 @@ timeOutCounter();
 
 var funcArray = [];
 
-/*
-  Make the following code work
+function theAdder(num) {
+  for (var i = 0; i < num; i++) {
+    funcArray.push(chapter(i));
 
-  funcArray[0]() //0
+  }
+  function chapter(i) {
+  	return function() {
+    	return i ;
+      
+	}
+  }
+
+}
+theAdder(6);
+
+//Make the following code work
+
+  funcArray[0](); //0
   funcArray[1]() //1
   funcArray[2]() //2
   funcArray[3]() //3
   funcArray[4]() //4
   funcArray[5]() //5
 
-  *Hint: Don't let this fool you. Break down what's really happening here.
-*/
+//   *Hint: Don't let this fool you. Break down what's really happening here.
+// */
